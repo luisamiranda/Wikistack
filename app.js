@@ -4,14 +4,22 @@ const express = require('express');
 const parser = require('body-parser');
 const nunjucks = require('nunjucks');
 const models = require('./models');
+const routes = require('./routes/wiki.js');
 
 const app = express();
 
-app.use(express.static('public'))
+app.use('/', routes);
 
-app.use('/', morgan);
+app.use(express.static('public'));
 
-app.use('/', parser);
+app.use('/', morgan('dev'));
+
+app.use('/', parser.urlencoded({ extended: true}));
+app.use(parser.json());
+
+app.engine('html', nunjucks.render);
+app.set('view engine', 'html');
+nunjucks.configure('views', { noCache: true });
 
 models.User.sync({})
 .then(function () {
