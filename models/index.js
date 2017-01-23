@@ -6,12 +6,12 @@ var db = new Sequelize('postgres://localhost:5432/wikistack', {
 const User = db.define('user', {
     name: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: true
     },
     email: {
       type: Sequelize.STRING,
       isEmail: true,
-      allowNull: false
+      allowNull: true
     }
 });
 
@@ -22,7 +22,7 @@ const Page = db.define('page', {
     },
     urlTitle: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: true
     },
     content: {
       type: Sequelize.TEXT,
