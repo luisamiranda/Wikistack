@@ -9,12 +9,20 @@ const app = express();
 
 app.use(express.static('public'))
 
+app.use('/', morgan);
 
+app.use('/', parser);
 
-app.listen(3000, function() {
-    console.log('Server running on port 3000');
+models.User.sync({})
+.then(function () {
+    return models.Page.sync();
 })
-
+.then(function () {
+  app.listen(3001, function() {
+        console.log('Server running on port 3001');
+  })
+})
+.catch(console.error);
 
 
 
