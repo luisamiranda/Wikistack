@@ -9,14 +9,15 @@ const routes = require('./routes/wiki.js');
 
 const app = express();
 
+app.use('/', morgan('dev'));
+
 app.use(parser.urlencoded({extended: true}));
 app.use(parser.json());
 
 app.use('/wiki', routes);
 
-app.use(express.static('public'));
-
-app.use('/', morgan('dev'));
+app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/public'));
 
 app.engine('html', nunjucks.render);
 app.set('view engine', 'html');
