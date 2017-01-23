@@ -3,12 +3,12 @@ const morgan = require('morgan');
 const express = require('express');
 const parser = require('body-parser');
 const nunjucks = require('nunjucks');
-const models = require('./models');
+const models = require('./models/index.js');
 const routes = require('./routes/wiki.js');
 
 const app = express();
 
-app.use('/', routes);
+app.use('/wiki', routes);
 
 app.use(express.static('public'));
 
@@ -26,8 +26,8 @@ models.User.sync({})
     return models.Page.sync();
 })
 .then(function () {
-  app.listen(3001, function() {
-        console.log('Server running on port 3001');
+  app.listen(3000, function() {
+        console.log('Server running on port 3000');
   })
 })
 .catch(console.error);

@@ -32,13 +32,13 @@ const Page = db.define('page', {
     date: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW
-    },
-    route: {
-      function() {
-        return '/wiki/' + this.getDataValue('urlTitle');
-      }
     }
+}, {
+  getterMethods:{
+    route: function() {return '/wiki/' + this.getDataValue('urlTitle')}
+  }
 });
+
 
 
 module.exports = {
