@@ -28,17 +28,23 @@ const Page = db.define('page', {
       type: Sequelize.TEXT,
       allowNull: false
     },
-    status: Sequelize.ENUM('open', 'closed'),
+    status: {
+      type: Sequelize.ENUM('open', 'closed')
+    },
     date: {
       type: Sequelize.DATE,
-      defaultValue: Sequelize.NOW
+      defaultValue: Sequelize.NOW,
+      allowNull: true
     }
 }, {
-  getterMethods:{
+   getterMethods:{
     route: function() {return '/wiki/' + this.getDataValue('urlTitle')}
   }
 });
 
+function urlMaker (title) {
+  
+}
 
 
 module.exports = {

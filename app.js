@@ -1,4 +1,5 @@
-'use strict'
+'use strict';
+
 const morgan = require('morgan');
 const express = require('express');
 const parser = require('body-parser');
@@ -8,22 +9,22 @@ const routes = require('./routes/wiki.js');
 
 const app = express();
 
+app.use(parser.urlencoded({extended: true}));
+app.use(parser.json());
+
 app.use('/wiki', routes);
 
 app.use(express.static('public'));
 
 app.use('/', morgan('dev'));
 
-app.use('/', parser.urlencoded({ extended: true}));
-app.use(parser.json());
-
 app.engine('html', nunjucks.render);
 app.set('view engine', 'html');
 nunjucks.configure('views', { noCache: true });
 
-models.User.sync({})
+models.User.sync({force: true})
 .then(function () {
-    return models.Page.sync();
+    return models.Page.sync({force: true});
 })
 .then(function () {
   app.listen(3000, function() {
