@@ -5,16 +5,25 @@ const nunjucks = require('nunjucks');
 const models = require('./models');
 const User = models.User;
 const Page = models.Page;
-
+const wikiRouter = require('./routes/wiki.js');
 
 const app = express();
 
 app.use(morgan('dev'));
-app.use(parser);
-app.use(express.static('_dirname', 'public'));
+
+app.use(parser.json());
+app.use(parser.urlencoded({ extended: true }));
+
+app.use(express.static('public'));
+
+app.use('/wiki/', wikiRouter.router);
 
 app.get('/', function(req,res,next){
   res.send('index');
+});
+
+app.get('/', function(err, req, res, next) {
+  console.log(err);
 });
 
 nunjucks.configure('views', {noCache: true});
@@ -41,8 +50,8 @@ User.sync({force: true})
   //     page.getAuthor(user);
   //   })
     .then(function(){
-      app.listen(3003, function(){
-        console.log('Server is listening on port 3003.');
+      app.listen(3000, function(){
+        console.log('Server is listening on port 3000.');
       });
     })
     .catch(console.error);
